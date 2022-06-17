@@ -39,6 +39,9 @@ def handle_message(event):
     if(message == '嗨'):
         text_message = TextSendMessage(text = 'No嗨')
         line_bot_api.reply_message(reply_token, text_message)
+    elif(message == "保重"):
+        text_message = TextSendMessage(text = '謝謝你的關心')
+        line_bot_api.reply_message(reply_token, text_message)
     elif(message == '貼圖'):
         sticker_message = StickerSendMessage(package_id='6325',sticker_id='10979907')
         line_bot_api.reply_message(reply_token, sticker_message)
@@ -65,5 +68,5 @@ def handle_message(event):
 
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',8080))
-    app.run(host='localhost', port=port)
+    port = int(os.environ.get('PORT',80))
+    app.run(host='0.0.0.0', port=port)
