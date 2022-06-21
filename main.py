@@ -1,3 +1,5 @@
+from array import array
+from ast import ListComp
 import json
 import random
 from flask import Flask, request, abort
@@ -41,14 +43,19 @@ def handle_message(event):
     #   "userId": "U82******************",
     #   "displayName": "張君祥", // 傳訊息使用者的帳號名字
     #   "pictureUrl": "https://sprofile.line-scdn.net/***/", // 使用者的大頭照圖片網址
-    #   "statusMessage": "蘋果仁 IG 編輯\n做個無所畏懼的謙卑之人",  // 使用者的 Bio
+    #   "statusMessage": "蘋果仁 IG 編輯\n做個無所畏懼s的謙卑之人",  // 使用者的 Bio
     #   "language": "zh-Hant" // 使用者的偏好語言
     #}
-    print(profile.display_name, "：",message)
-    if("嗨" in message or "安安" in message ):
+    print(profile.display_name, "：",message) #傳送訊息Log
+    if(message_type == "sticker"):
+        num = random.randint(76,99)
+        exportNum = '105513'+str(num)
+        sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
+        line_bot_api.reply_message(reply_token, sticker_message)
+    elif("嗨" in message or "安安" in message ):
         text_message = TextSendMessage(text = profile.display_name + ",你好")
         line_bot_api.reply_message(reply_token, text_message)
-    elif(message == '貼圖一'):
+    elif(message == '貼圖二'):
         num = random.randint(76,99)
         exportNum = '105513'+str(num)
         sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
@@ -58,19 +65,23 @@ def handle_message(event):
         exportNum = '109799'+str(num)
         sticker_message = StickerSendMessage(package_id='6325',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
-    # elif(message == '圖片'):
-    #     image_message = ImageSendMessage(original_content_url='https://file-examples-com.github.io/uploads/2017/10/file_example_PNG_500kB.png',preview_image_url='https://file-examples-com.github.io/uploads/2017/10/file_example_PNG_500kB.png')
-    #     line_bot_api.reply_message(reply_token, image_message)
-    # elif(message == '影片'):
-    #     video_message = VideoSendMessage(original_content_url='https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4',preview_image_url='https://file-examples-com.github.io/uploads/2017/10/file_example_PNG_500kB.png')
-    #     line_bot_api.reply_message(reply_token, video_message)
-    # elif(message == '聲音'):
-    #     audio_message = AudioSendMessage(original_content_url='https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3',duration=3000)
-    #     line_bot_api.reply_message(reply_token, audio_message)
-    # elif(message == 'Location'):
-    #     location_message = LocationSendMessage(title='my location',address='Tokyo',latitude=35.65910807942215,longitude=139.70372892916203)
-    #     line_bot_api.reply_message(reply_token, location_message)
-    elif('爛' in message or '幹' in message or '垃圾' in message):
+    elif("罵他" in message or "罵罵" in message):
+        if(event.message.mention != None):
+            tagInfo = event.message.mention.mentionees
+            tagOneData = next((x for x in tagInfo), None)
+            strData = str(tagOneData)
+            j = json.loads(strData)
+            tagProfileData = line_bot_api.get_profile(j['userId'])
+            if(j['userId'] == "U8ff193174b01bfa73c2e4e9c178d003c"):
+               text_message = TextSendMessage(text = profile.display_name + random.choice((',你才垃圾', ',你才低能兒', ',你才沒料')))
+               line_bot_api.reply_message(reply_token, text_message)
+            else:
+                text_message = TextSendMessage(text = tagProfileData.display_name + random.choice(('垃圾', '低能兒', '沒料')))
+                line_bot_api.reply_message(reply_token, text_message)
+    elif('誇我' in message):
+        text_message = TextSendMessage(text = profile.display_name + random.choice(('你就很猛', '你好棒', '你是鬼')))
+        line_bot_api.reply_message(reply_token, text_message)
+    elif('爛' in message or '幹' in message or '垃圾' in message or '低能兒' in message or '沒料' in message):
         text_message = TextSendMessage(text = profile.display_name + ',你講話可不可以不要這麼臭')
         line_bot_api.reply_message(reply_token, text_message)
     elif('謝' in message):
