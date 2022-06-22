@@ -2,7 +2,7 @@ from array import array
 from ast import ListComp
 import json
 import random
-from flask import Flask, request, abort
+from flask import Flask, request, abort , render_template
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -17,6 +17,12 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('Oab2kpZ3f0t35+8oYNfTpYbq9T4taRyVminiW9gHGUAbgnWfiWPpUoqmn2LpXEySzWu33oZgZQNY3xHDE67nH6+spvtyxzy7OZy+F3y8LqHYXHPZM7qJenb7ULux0oOcXLbn9Lg5D8oRzfm8ic8NBAdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('aff823673f1d48c14b2875b853ebb17f') 
 
+# 增加的這段放在下面
+@app.route("/")
+def home():
+    return render_template("home.html")
+# 增加的這段放在上面
+
 # 指定在 /callback 通道上接收訊息，且方法是 POST，而callback()是為了要檢查連線是否正常
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -29,7 +35,6 @@ def callback():
     except InvalidSignatureError:  
         abort(400)
     return 'OK'
-
 
 # Message event
 @handler.add(MessageEvent)
