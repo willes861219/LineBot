@@ -60,7 +60,7 @@ def handle_message(event):
     elif("嗨" in message or "安安" in message ):
         text_message = TextSendMessage(text = profile.display_name + ",嗨嗨")
         line_bot_api.reply_message(reply_token, text_message)
-    elif(message == '貼圖二'):
+    elif(message == '貼圖一'):
         num = random.randint(76,99)
         exportNum = '105513'+str(num)
         sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
