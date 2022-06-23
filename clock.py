@@ -1,13 +1,14 @@
-import urllib
-from apscheduler.schedulers.blocking import BlockingScheduler  # 　從 APScheduler 的套件裡拿出BlockingScheduler
+import urllib.request 
+from apscheduler.schedulers.blocking import BlockingScheduler
 
-sched = BlockingScheduler() #　初始化一個BlockingScheduler()物件，並貼上sched的標籤方便後續操作。除非你希望換個標籤，不然照著做。
+sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', day_of_week='mon-fri', minute='*/20')
+
+@sched.scheduled_job('cron', day_of_week='mon-fri', second="*/5")
 def scheduled_job():
     url = "https://yukibot-test.herokuapp.com/"
     conn = urllib.request.urlopen(url)
-        
+
     for key, value in conn.getheaders():
         print(key, value)
 

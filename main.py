@@ -18,10 +18,10 @@ line_bot_api = LineBotApi('Oab2kpZ3f0t35+8oYNfTpYbq9T4taRyVminiW9gHGUAbgnWfiWPpU
 handler = WebhookHandler('aff823673f1d48c14b2875b853ebb17f') 
 
 # # 增加的這段放在下面
-# @app.route("/")
-# def home():
-#     return render_template("home.html")
-# # 增加的這段放在上面
+@app.route("/")
+def home():
+    return render_template("home.html")
+# 增加的這段放在上面
 
 # 指定在 /callback 通道上接收訊息，且方法是 POST，而callback()是為了要檢查連線是否正常
 @app.route("/callback", methods=['POST'])
