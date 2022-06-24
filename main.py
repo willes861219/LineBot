@@ -1,5 +1,8 @@
 from array import array
 from ast import ListComp
+import function as f
+import os
+import psycopg2
 import json
 import random
 from flask import Flask, request, abort,render_template
@@ -122,7 +125,11 @@ def handle_message(event):
     elif('已讀' in message):
         text_message = TextSendMessage(text = '絕對不是我已讀的')
         line_bot_api.reply_message(reply_token, text_message)
+    elif('測試' in message):
+        msg = f.Search()
+        text_message = TextSendMessage(text = msg)
+        line_bot_api.reply_message(reply_token, text_message)
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',80))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT',8080))
+    app.run(host='localhost', port=port)
