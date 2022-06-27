@@ -124,9 +124,9 @@ def handle_message(event):
             if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
                 result =  TextSendMessage(random.choice(['大吉','中吉','小吉']) + f'，今日已抽籤：{Count+1}次')
                 line_bot_api.reply_message(reply_token, result)
-            elif(user_id == 'Uee42ddfe4ff01ddf857dfda5d1db9537' or user_id == 'U771d831b3496944d6ba094e05b0d9ebb' ): 
-                result =  TextSendMessage(random.choice(['凶','大凶'])+f'，今日已抽籤：{Count+1}次')
-                line_bot_api.reply_message(reply_token, result)
+            # elif(user_id == 'Uee42ddfe4ff01ddf857dfda5d1db9537' or user_id == 'U771d831b3496944d6ba094e05b0d9ebb' ): 
+            #     result =  TextSendMessage(random.choice(['凶','大凶'])+f'，今日已抽籤：{Count+1}次')
+            #     line_bot_api.reply_message(reply_token, result)
             else:
                 result =  TextSendMessage(random.choice(['大吉','中吉','小吉','吉','末吉','凶','大凶'])+f'，今日已抽籤：{Count+1}次')
                 line_bot_api.reply_message(reply_token, result)
