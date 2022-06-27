@@ -4,7 +4,6 @@ from itertools import count
 from unittest import TextTestResult
 import function as f
 import os
-import psycopg2
 import json
 import random
 from flask import Flask, request, abort,render_template
