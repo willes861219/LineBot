@@ -22,7 +22,7 @@ def scheduled_job():
     for key, value in conn.getheaders():
         print(key, value)
 
-@sched.scheduled_job('cron', day_of_week='mon-sun', minute='*/2')
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour='0')
 def resetDrawStraws():
     print('========== 重置抽籤次數 =========')
     print('這個工作在每天的晚上12點執行')
