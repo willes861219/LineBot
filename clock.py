@@ -22,8 +22,6 @@ def scheduled_job():
     for key, value in conn.getheaders():
         print(key, value)
 
-sched.start()
-
 @sched.scheduled_job('cron', day_of_week='mon-sun', minute='*/2')
 def resetDrawStraws():
     print('========== 重置抽籤次數 =========')
@@ -43,5 +41,4 @@ def resetDrawStraws():
     cursor.close() #最後兩行程式碼來關閉cursor
     conn.close() #以及中斷連線
     
-
 sched.start()
