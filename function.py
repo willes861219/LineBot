@@ -1,14 +1,18 @@
+from distutils.log import error
 import os
 import psycopg2
+import datetime
 
 # 初始化DB配置
 def DB_init():
-    #本機Database 連線方式
-    #DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a yukibot-test').read()[:-1]
-    #conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
-    #部屬到Heroku上 Database連線方式
+    ###本機Database 連線方式
+    # DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a yukibot-test').read()[:-1]
+    # conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
+
+    ###部屬到Heroku上 Database連線方式
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
+
     return conn
 
 def Search():   
@@ -49,6 +53,26 @@ def SearchDrawStraws(UserGuid):
 
         return temp[0]
 
+#新增使用者資料
+def updateUserData(UserGuid,UserName):
+        conn = DB_init()
+        cursor = conn.cursor() #初始化一個可以執行指令的cursor()。
+        records = [(UserGuid,UserName,0,datetime.date.today())]
+        table_columns = '(UserGuid, UserName, DrawStraws_Count, date)'
+
+        query = f'''INSERT INTO account {table_columns} VALUES (%s,%s,%s,%s);'''
+        
+        cursor.executemany(query,records) #執行 SQL 指令。
+
+        conn.commit() #用conn.commit()做確認，指令才會真正被執行
+
+        count = cursor.rowcount
+
+        print("新增了",count,"筆資料")
+
+        cursor.close() #最後兩行程式碼來關閉cursor
+        conn.close() #以及中斷連線
+
 #新增抽籤次數
 def updateCount(UserGuid,DayCount): 
     DayCount = SearchDrawStraws(UserGuid)
@@ -67,5 +91,18 @@ def updateCount(UserGuid,DayCount):
     else:
         return False
 
+#重置抽籤次數
+def resetDrawStraws(UserGuid = ""):
+    conn = DB_init()
+    cursor = conn.cursor() #初始化一個可以執行指令的cursor()。
+    if(UserGuid != ''):
+        query = f'''update account set DrawStraws_Count = 0 where UserGuid = '{UserGuid}' ''' 
+    else:
+        query = '''update account set DrawStraws_Count = 0 '''
     
+    cursor.execute(query) #執行 SQL 指令。
+    conn.commit() #用conn.commit()做確認，指令才會真正被執行
+
+    cursor.close() #最後兩行程式碼來關閉cursor
+    conn.close() #以及中斷連線
     

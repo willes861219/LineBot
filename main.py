@@ -46,7 +46,7 @@ def handle_message(event):
     message_type = event.message.type
     user_id = event.source.user_id
     reply_token = event.reply_token
-    message = event.message.text
+    message = event.message.text    
     profile = line_bot_api.get_profile(user_id) #取得使用者資訊 
     #{
     #   "userId": "U82******************",
@@ -113,25 +113,29 @@ def handle_message(event):
     elif(message == '早餐'):
         FlexMessage = json.load(open('burger.json','r',encoding='utf-8'))
         line_bot_api.reply_message(reply_token, FlexSendMessage('123',FlexMessage))
+    elif(message == '重置抽籤'):
+        f.resetDrawStraws(user_id)
+        result = TextSendMessage(text = f'已重置{profile.display_name}的抽籤次數')
+        line_bot_api.reply_message(reply_token,result)
     elif(message == '抽籤次數'):
         Count = f.SearchDrawStraws(user_id)
-        result =  TextSendMessage(text = f'今日抽籤次數：{Count}次')
+        result =  TextSendMessage(text = profile.display_name + f',今日抽籤次數：{Count}次')
         line_bot_api.reply_message(reply_token, result)
     elif(message == '抽籤' or '我抽籤' in message):
         Count = f.SearchDrawStraws(user_id)
         addcount = f.updateCount(user_id,Count) #新增抽籤次數
         if(addcount == True):
             if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
-                result =  TextSendMessage(random.choice(['大吉','中吉','小吉']) + f'，今日已抽籤：{Count+1}次')
+                result =  TextSendMessage(text = profile.display_name+',本次抽籤結果：' + random.choice(['大吉','中吉','小吉']) + f'，今日已抽籤：{Count+1}次')
                 line_bot_api.reply_message(reply_token, result)
             # elif(user_id == 'Uee42ddfe4ff01ddf857dfda5d1db9537' or user_id == 'U771d831b3496944d6ba094e05b0d9ebb' ): 
             #     result =  TextSendMessage(random.choice(['凶','大凶'])+f'，今日已抽籤：{Count+1}次')
             #     line_bot_api.reply_message(reply_token, result)
             else:
-                result =  TextSendMessage(random.choice(['大吉','中吉','小吉','吉','末吉','凶','大凶'])+f'，今日已抽籤：{Count+1}次')
+                result =  TextSendMessage(text = profile.display_name+',本次抽籤結果：'+ random.choice(['大吉','中吉','小吉','吉','末吉','凶','大凶']) + f'，今日已抽籤：{Count+1}次')
                 line_bot_api.reply_message(reply_token, result)
         else:
-            result =  TextSendMessage(text = '已超過次數，無法抽籤')
+            result =  TextSendMessage(text = profile.display_name+',已超過次數，無法抽籤')
             line_bot_api.reply_message(reply_token, result)
     elif('已讀' in message):
         text_message = TextSendMessage(text = '絕對不是我已讀的')
@@ -142,5 +146,5 @@ def handle_message(event):
         line_bot_api.reply_message(reply_token, text_message)
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',8080))
+    port = int(os.environ.get('PORT',80))
     app.run(host='0.0.0.0', port=port)
