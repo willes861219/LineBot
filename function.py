@@ -2,7 +2,6 @@ from codecs import StreamReader
 from distutils.log import error
 import re
 import os
-from numpy import tensordot
 import psycopg2
 import datetime
 

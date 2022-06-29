@@ -7,7 +7,6 @@ from this import d
 from unittest import TextTestResult
 from uuid import RESERVED_FUTURE
 
-from numpy import true_divide
 import function as f
 import os
 import json
