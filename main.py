@@ -1,7 +1,13 @@
+from __future__ import barry_as_FLUFL
 from array import array
 from ast import ListComp
 from itertools import count
+from operator import index
+from this import d
 from unittest import TextTestResult
+from uuid import RESERVED_FUTURE
+
+from numpy import true_divide
 import function as f
 import os
 import json
@@ -56,11 +62,52 @@ def handle_message(event):
     #   "language": "zh-Hant" // 使用者的偏好語言
     #}
     print(profile.display_name, "：",message) #傳送訊息Log
+
+    ###判斷是否為髒字
+    isJudgeMsg = True
+    result = f.searchJudge()
+    for r in result:
+        if(r in message):
+            isJudgeMsg = True
+            print(r)
+            break
+        else:
+            isJudgeMsg = False
+
     if(message_type == "sticker"):
         num = random.randint(76,99)
         exportNum = '105513'+str(num)
         sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
+    elif("黑名單" in message):
+        if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
+            addMsg = str(message).split(" ")
+            if(len(addMsg) > 1):
+                blacklist = False
+                for r in result:
+                    if(r in addMsg[1]):
+                        blacklist = True
+                        print("已有在黑名單中")
+                        break
+                    else:
+                        continue
+                if(blacklist != True):
+                    count = f.updateJudge(addMsg[1])
+                    if(count >= 1):
+                        text_message = TextSendMessage(text = addMsg[1] +" 已加入黑名單")
+                        line_bot_api.reply_message(reply_token, text_message)
+                    else:
+                        text_message = TextSendMessage(text = addMsg[1] +" 加入失敗")
+                        line_bot_api.reply_message(reply_token, text_message)
+                else:
+                    text_message = TextSendMessage(text = addMsg[1] +" 已有在黑名單中")
+                    line_bot_api.reply_message(reply_token, text_message)
+            else:
+                text_message = TextSendMessage(text = "輸入格式錯誤")
+                line_bot_api.reply_message(reply_token, text_message)
+        else:
+            text_message = TextSendMessage(text = profile.display_name + "的權限不足")
+            line_bot_api.reply_message(reply_token, text_message)
     elif("嗨" in message or "安安" in message ):
         text_message = TextSendMessage(text = profile.display_name + ",嗨嗨")
         line_bot_api.reply_message(reply_token, text_message)
@@ -90,7 +137,7 @@ def handle_message(event):
     elif('誇我' in message):
         text_message = TextSendMessage(text = profile.display_name + random.choice(('你就很猛', '你好棒', '你是鬼')))
         line_bot_api.reply_message(reply_token, text_message)
-    elif('爛' in message or '幹' in message or '垃圾' in message or '低能兒' in message or '沒料' in message):
+    elif(isJudgeMsg):
         if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
             text_message = TextSendMessage(text = '確實')
             line_bot_api.reply_message(reply_token, text_message)
@@ -141,10 +188,10 @@ def handle_message(event):
         text_message = TextSendMessage(text = '絕對不是我已讀的')
         line_bot_api.reply_message(reply_token, text_message)
     elif(message == '測試'):
-        msg = f.Search()
+        msg = f.SearchDB()
         text_message = TextSendMessage(text = msg)
         line_bot_api.reply_message(reply_token, text_message)
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',80))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT',8080))
+    app.run(host='localhost', port=port)

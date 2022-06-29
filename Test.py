@@ -1,0 +1,26 @@
+import function as f
+import re 
+
+msg = "黑名單 靠"
+b = msg.split(" ")
+print(len(b))
+
+# result = f.searchJudge()
+# print(result)
+#elif('爛' in message or '幹' in message or '垃圾' in message or '低能兒' in message or '沒料' in message):
+
+# import numpy as np
+
+# a = np.array([1,2,3])
+# print(a)
+
+# b = np.array([[5,3,6,7,1], [1,2,3,4,5]])
+# print(b[1,3])
+# print(b)
+
+
+# #一個骰子
+# #大 小 單 雙 四種組合
+# #456 123 
+# #先說要大或小 單或雙，然後機器人講骰到幾點，然後講誰贏誰輸 誰拿走多少籌碼
+# #大或小 單或雙 這個應該是8種組合
