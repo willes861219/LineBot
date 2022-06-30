@@ -70,7 +70,7 @@ def handle_message(event):
                 isJudgeMsg = True
                 break
             else:
-            isJudgeMsg = False
+                isJudgeMsg = False
 
     if(message_type == "sticker"):
         num = random.randint(76,99)
