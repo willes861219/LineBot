@@ -61,7 +61,7 @@ def handle_message(event):
     #   "language": "zh-Hant" // 使用者的偏好語言
     #}
     print(profile.display_name, "：",message) #傳送訊息Log
-
+    isJudgeMsg =False
     ###判斷是否為黑名單內字元
     try:
         blackLists = f.searchJudge()

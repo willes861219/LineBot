@@ -182,7 +182,7 @@ def ClearJudge():
     conn = DB_init()
     cursor = conn.cursor()
 
-    query = '''update judge set message = '' '''
+    query = '''update judge set message = null '''
 
     cursor.execute(query)
     conn.commit()
