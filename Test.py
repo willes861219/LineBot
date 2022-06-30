@@ -6,11 +6,11 @@ import re
 
 # print(f.searchJudge())
 
-try:
-    f.searchJudge()
-    print("成功")
-except:
-    print("失敗")
+
+# f.clearJudge()
+
+f.updateJudge("測試一")
+
 
 # a = 0
 # msg = "測試1"

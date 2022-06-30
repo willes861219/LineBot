@@ -138,10 +138,15 @@ def searchJudge(): #搜尋黑名單
     return exportList
 
 def updateJudge(msg): #更新黑名單
-    importmsg = "," + msg
     conn = DB_init()
     cursor = conn.cursor()
-    query = f'''Update judge set message = CONCAT(message,'{importmsg}')'''
+    query = f'''update judge 
+                set message = 
+                case 
+                when message is null then 
+                '{msg}' 
+                else CONCAT(message,',{msg}')
+                end'''
 
     cursor.execute(query)
     count = cursor.rowcount
@@ -178,7 +183,7 @@ def deleteJudge(msg): #刪除黑名單
             continue
     return "未找到相符字串"
 
-def ClearJudge():
+def clearJudge():
     conn = DB_init()
     cursor = conn.cursor()
 
