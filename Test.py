@@ -1,3 +1,4 @@
+from distutils.log import error
 import telnetlib
 from typing import List
 import function as f
@@ -5,7 +6,11 @@ import re
 
 # print(f.searchJudge())
 
-print(f.searchJudge())
+try:
+    f.searchJudge()
+    print("成功")
+except:
+    print("失敗")
 
 # a = 0
 # msg = "測試1"

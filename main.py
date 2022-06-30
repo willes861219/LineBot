@@ -63,14 +63,19 @@ def handle_message(event):
     print(profile.display_name, "：",message) #傳送訊息Log
 
     ###判斷是否為黑名單內字元
-    blackLists = f.searchJudge()
-    if(blackLists != []):
-        for list in blackLists:
-            if(list in message):
-                isJudgeMsg = True
-                break
-            else:
-                isJudgeMsg = False
+    try:
+        blackLists = f.searchJudge()
+        if(blackLists != []):
+            for list in blackLists:
+                if(list in message):
+                    isJudgeMsg = True
+                    break
+                else:
+                    isJudgeMsg = False
+        print("成功取得黑名單")
+    except:
+        blackLists = "黑名單內無資料"
+        print("失敗取得黑名單")
 
     if(message_type == "sticker"):
         num = random.randint(76,99)
@@ -103,7 +108,7 @@ def handle_message(event):
             isblackList = False 
             for list in blackLists:
                 if(list == msgList[1]):
-                    isblackList = True
+                    isblackList = True  
                     print("已有在黑名單中")
                     break
                 else:
