@@ -64,11 +64,12 @@ def handle_message(event):
 
     ###判斷是否為黑名單內字元
     blackLists = f.searchJudge()
-    for list in blackLists:
-        if(list in message):
-            isJudgeMsg = True
-            break
-        else:
+    if(blackLists != []):
+        for list in blackLists:
+            if(list in message):
+                isJudgeMsg = True
+                break
+            else:
             isJudgeMsg = False
 
     if(message_type == "sticker"):
@@ -76,6 +77,13 @@ def handle_message(event):
         exportNum = '105513'+str(num)
         sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
+    # elif("清空黑名單" in message):
+    #     if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
+    #         text_message = TextSendMessage(text = f)
+    #         line_bot_api.reply_message(reply_token,text_message)
+    #     else:
+    #         text_message = TextSendMessage(text = profile.display_name + "的權限不足")
+    #         line_bot_api.reply_message(reply_token, text_message)
     elif("刪除黑名單" in message):
         # if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
         msgList = str(message).split(" ")

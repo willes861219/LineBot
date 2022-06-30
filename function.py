@@ -177,13 +177,20 @@ def deleteJudge(msg): #刪除黑名單
         else:
             continue
     return "未找到相符字串"
-    # if()
-    # message = ""
-    # for list in lists:
-    #     message += list + ','
-    # print(message[:-1])
 
-    #     conn = DB_init()
-    #     cursor = conn.cursor()
+def ClearJudge():
+    conn = DB_init()
+    cursor = conn.cursor()
 
-    #     query = f'''update judge set message = message '''
+    query = '''update judge set message = '' '''
+
+    cursor.execute(query)
+    conn.commit()
+    count = cursor.rowcount
+
+    cursor.close()
+    conn.close()
+
+    return count
+
+    
