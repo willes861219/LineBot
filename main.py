@@ -26,7 +26,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('Oab2kpZ3f0t35+8oYNfTpYbq9T4taRyVminiW9gHGUAbgnWfiWPpUoqmn2LpXEySzWu33oZgZQNY3xHDE67nH6+spvtyxzy7OZy+F3y8LqHYXHPZM7qJenb7ULux0oOcXLbn9Lg5D8oRzfm8ic8NBAdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('aff823673f1d48c14b2875b853ebb17f') 
 
-# # 增加的這段放在下面
+# 增加的這段放在下面
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -79,7 +79,7 @@ def handle_message(event):
     elif("刪除黑名單" in message):
         # if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
         msgList = str(message).split(" ")
-        if(len(msgList) >= 1):
+        if(len(msgList) >= 1 and msgList[0] == "刪除黑名單"):
             text_message = TextSendMessage(text = f.deleteJudge(msgList[1]))
             line_bot_api.reply_message(reply_token,text_message)
         else:
@@ -91,7 +91,7 @@ def handle_message(event):
     elif("加入黑名單" in message):
         # if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
         msgList = str(message).split(" ")
-        if(len(msgList) > 1): # 判斷List長度是否大於1 
+        if(len(msgList) > 1 and msgList[0] == "加入黑名單"): # 判斷List長度是否大於1 
             isblackList = False 
             for list in blackLists:
                 if(list == msgList[1]):
