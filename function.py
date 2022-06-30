@@ -105,7 +105,39 @@ def resetDrawStraws(UserGuid = ""): #重置抽籤次數
     cursor.close() #最後兩行程式碼來關閉cursor
     conn.close() #以及中斷連線
 
-def updateJudge(msg):
+def searchJudge(): #搜尋黑名單
+    conn = DB_init()
+    cursor = conn.cursor()
+    query = '''SELECT message FROM judge'''
+
+    cursor.execute(query)
+    conn.commit()
+
+    temp = cursor.fetchone()
+    
+    cursor.close()
+    conn.close()
+
+    exportList = [] #空list
+    messages = "" #空字串
+    exportMsg = "" #輸出空字串
+
+    for string in temp: #tuple for迴圈 撈出tuple的index內容
+        messages+=string #重整成新字串
+
+    # messages範例字串："測試,測試2,測試3,測試4,測試5"
+    for message in messages:  #for迴圈 跑messages的各字元
+        if(message == ','):  #字元是',' 就不加進exportMsg而是加入exportList，然後再把exportMsg變為空字串，繼續跑for迴圈直到結束
+            exportList.append(exportMsg)
+            exportMsg = ""
+        else: #字元不為 ',' 就加上去 
+            exportMsg += message  
+
+    exportList.append(exportMsg) #因為最後的字元不會是 ',' 所以上面for迴圈的判斷不會加到最後一個詞 如上範例(測試5讀不到)，所以需要自行把最後一個詞加入至List
+
+    return exportList
+
+def updateJudge(msg): #更新黑名單
     importmsg = "," + msg
     conn = DB_init()
     cursor = conn.cursor()
@@ -120,33 +152,38 @@ def updateJudge(msg):
     
     return count
 
-def searchJudge():
-    conn = DB_init()
-    cursor = conn.cursor()
-    query = '''SELECT message FROM judge'''
+def deleteJudge(msg): #刪除黑名單
+    lists =  searchJudge()
+    for list in lists:
+        if(msg == list):
+            lists.remove(list)
+            message = ""
+            for list in lists:
+                message += list + ','
 
-    cursor.execute(query)
-    conn.commit()
+            conn = DB_init()
+            cursor = conn.cursor()
 
-    temp = cursor.fetchone()
-    
-    cursor.close()
-    conn.close()
+            query = f'''update judge set message = '{message[:-1]}' '''
+            
+            cursor.execute(query)
 
-    exportList = []
-    text = ""
-    exportMsg = ""
+            conn.commit()
 
-    for string in temp:
-        text+=string
-
-    for msg in text:
-        if(msg == ','):
-            exportList.append(exportMsg)
-            exportMsg = ""
+            cursor.close()
+            conn.close()
+            
+            return f'''成功從黑名單中刪除 "{msg}"'''
         else:
-            exportMsg += msg 
-    exportList.append(exportMsg)
+            continue
+    return "未找到相符字串"
+    # if()
+    # message = ""
+    # for list in lists:
+    #     message += list + ','
+    # print(message[:-1])
 
-    # exportText = re.sub("\[|\]|","",str(exportList))
-    return exportList
+    #     conn = DB_init()
+    #     cursor = conn.cursor()
+
+    #     query = f'''update judge set message = message '''

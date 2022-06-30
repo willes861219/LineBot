@@ -1,9 +1,32 @@
+import telnetlib
+from typing import List
 import function as f
 import re 
 
-msg = "黑名單 靠"
-b = msg.split(" ")
-print(len(b))
+# print(f.searchJudge())
+
+print(f.searchJudge())
+
+# a = 0
+# msg = "測試1"
+# lists = ['測試1','測試2','測試3','測試4']
+# message = ""
+# for list in lists:
+#     if(list == msg):
+#         lists.remove(list)
+#         for list in lists:
+#             message += list + ','
+#         print(message[:-1])
+#     else:
+#         continue
+# for list in lists:
+#     message += list + ','
+# print(message[:-1])
+# print(lists)
+
+# msg = "黑名單 靠"
+# b = msg.split(" ")
+# print(len(b))
 
 # result = f.searchJudge()
 # print(result)

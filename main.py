@@ -62,13 +62,11 @@ def handle_message(event):
     #}
     print(profile.display_name, "：",message) #傳送訊息Log
 
-    ###判斷是否為髒字
-    isJudgeMsg = True
-    result = f.searchJudge()
-    for r in result:
-        if(r in message):
+    ###判斷是否為黑名單內字元
+    blackLists = f.searchJudge()
+    for list in blackLists:
+        if(list in message):
             isJudgeMsg = True
-            print(r)
             break
         else:
             isJudgeMsg = False
@@ -78,35 +76,50 @@ def handle_message(event):
         exportNum = '105513'+str(num)
         sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
-    elif("黑名單" in message):
-        if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
-            addMsg = str(message).split(" ")
-            if(len(addMsg) > 1):
-                blacklist = False
-                for r in result:
-                    if(r in addMsg[1]):
-                        blacklist = True
-                        print("已有在黑名單中")
-                        break
-                    else:
-                        continue
-                if(blacklist != True):
-                    count = f.updateJudge(addMsg[1])
-                    if(count >= 1):
-                        text_message = TextSendMessage(text = addMsg[1] +" 已加入黑名單")
-                        line_bot_api.reply_message(reply_token, text_message)
-                    else:
-                        text_message = TextSendMessage(text = addMsg[1] +" 加入失敗")
-                        line_bot_api.reply_message(reply_token, text_message)
+    elif("刪除黑名單" in message):
+        # if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
+        msgList = str(message).split(" ")
+        if(len(msgList) >= 1):
+            text_message = TextSendMessage(text = f.deleteJudge(msgList[1]))
+            line_bot_api.reply_message(reply_token,text_message)
+        else:
+            text_message = TextSendMessage(text = "格式錯誤")
+            line_bot_api.reply_message(reply_token,text_message)
+        # else:
+        #     text_message = TextSendMessage(text = profile.display_name + "的權限不足")
+        #     line_bot_api.reply_message(reply_token, text_message)
+    elif("加入黑名單" in message):
+        # if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
+        msgList = str(message).split(" ")
+        if(len(msgList) > 1): # 判斷List長度是否大於1 
+            isblackList = False 
+            for list in blackLists:
+                if(list == msgList[1]):
+                    isblackList = True
+                    print("已有在黑名單中")
+                    break
                 else:
-                    text_message = TextSendMessage(text = addMsg[1] +" 已有在黑名單中")
+                    continue
+            if(isblackList != True):
+                count = f.updateJudge(msgList[1])
+                if(count >= 1):
+                    text_message = TextSendMessage(text = msgList[1] +" 已加入黑名單")
+                    line_bot_api.reply_message(reply_token, text_message)
+                else:
+                    text_message = TextSendMessage(text = msgList[1] +" 加入失敗")
                     line_bot_api.reply_message(reply_token, text_message)
             else:
-                text_message = TextSendMessage(text = "輸入格式錯誤")
+                text_message = TextSendMessage(text = msgList[1] +" 已有在黑名單中")
                 line_bot_api.reply_message(reply_token, text_message)
         else:
-            text_message = TextSendMessage(text = profile.display_name + "的權限不足")
+            text_message = TextSendMessage(text = "輸入格式錯誤")
             line_bot_api.reply_message(reply_token, text_message)
+        # else:
+        #     text_message = TextSendMessage(text = profile.display_name + "的權限不足")
+        #     line_bot_api.reply_message(reply_token, text_message)
+    elif("黑名單清單" in message):
+        text_message = TextSendMessage(text = str(blackLists))
+        line_bot_api.reply_message(reply_token, text_message)
     elif("嗨" in message or "安安" in message ):
         text_message = TextSendMessage(text = profile.display_name + ",嗨嗨")
         line_bot_api.reply_message(reply_token, text_message)
