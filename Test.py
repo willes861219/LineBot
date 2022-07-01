@@ -5,14 +5,27 @@ import function as f
 import re 
 
 # print(f.searchJudge())
+msg = "哈囉"
+mylist = ['測試1','哈囉','測試2'] 
 
+# if msg in mylist:
+#     print("yes")
+# else:
+#     print("no")
+test = lambda x: x == msg
+print("test lambda and map = "+ mylist(msg))
 
-# f.clearJudge()
-
-f.updateJudge("測試一")
-
-
-# a = 0
+# blackLists = f.searchJudge()
+#     if(blackLists != []):
+#         map(,blackLists)
+#         for list in blackLists:
+#             if(list in message):
+#                 isJudgeMsg = True
+#                 break
+#             else:
+#                 isJudgeMsg = False
+#     print("成功取得黑名單")
+# # a = 0
 # msg = "測試1"
 # lists = ['測試1','測試2','測試3','測試4']
 # message = ""

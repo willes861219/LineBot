@@ -1,9 +1,11 @@
 from __future__ import barry_as_FLUFL
 from array import array
 from ast import ListComp
+from hashlib import blake2b
 from itertools import count
 from operator import index
 from this import d
+from timeit import timeit
 from unittest import TextTestResult
 from uuid import RESERVED_FUTURE
 
@@ -65,13 +67,17 @@ def handle_message(event):
     try:
         blackLists = f.searchJudge()
         if(blackLists != []):
-            for list in blackLists:
-                if(list in message):
-                    isJudgeMsg = True
-                    break
-                else:
-                    isJudgeMsg = False
-        print("成功取得黑名單")
+            # if message in blackLists: ## message 100%符合搜尋
+            #     isJudgeMsg =True
+            # else:
+            #     isJudgeMsg = False
+
+            if any(message in list for list in blackLists): ## message模糊搜尋
+                isJudgeMsg = True
+            else:
+                isJudgeMsg = False
+                
+        print("成功判斷文字是否在黑名單內")
     except:
         isJudgeMsg =False
         blackLists = "黑名單內無資料"
@@ -82,6 +88,9 @@ def handle_message(event):
         exportNum = '105513'+str(num)
         sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
+    elif("會不會" in message):
+        text_message = TextSendMessage(text = random.choice(('會','不會')))
+        line_bot_api.reply_message(reply_token, text_message)
     elif("清除黑名單" in message):
         if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
             try:    
