@@ -34,7 +34,7 @@ def home():
     return render_template("home.html")
 # 增加的這段放在上面
 
-# 指定在 /callback 通道上接收訊息，且方法是 POST，而callback()是為了要檢查連線是否正常
+# 接收 LINE 的資訊，指定在 /callback 通道上接收訊息，且方法是 POST，而callback()是為了要檢查連線是否正常
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -47,13 +47,53 @@ def callback():
         abort(400)
     return 'OK'
 
+# 成員加入群組事件
+@handler.add(MemberJoinedEvent)
+def handle_follow(event):
+    reply_token = event.reply_token
+    members = event.joined.members
+    print(f"成員：{members}")
+    dictData = next((x for x in members),None)
+    strData = str(dictData)
+    j = json.loads(strData)
+    userId = j['userId']
+    profile = line_bot_api.get_profile(userId)
+
+    print(f"使用者：{profile.display_name}")
+    try:
+        f.updateUserData(userId,profile.display_name)
+        text_message = TextSendMessage(text = f"安安歡迎{profile.display_name}，加入資料庫成功")
+        line_bot_api.reply_message(reply_token, text_message)
+    except:
+        text_message = TextSendMessage(text = f"安安歡迎{profile.display_name}，加入資料庫失敗")
+        line_bot_api.reply_message(reply_token, text_message)
+    
+# @handler.add(MemberLeftEvent)
+# def handle_follow(event):
+    # reply_token = event.reply_token
+    # members = event.joined.members
+    # type = event.type
+    # print(f"成員：{members}")
+    # print(f"外層：{event}")
+
+    # if type == 'memberJoined':
+    #     print(f"MemberJoined:{json.load(event)}")
+    #     print("加入")
+    #     text_message = TextSendMessage(text = f"MemberJoined {event.source.type}")
+    #     line_bot_api.reply_message(reply_token, text_message)
+    # elif type == 'memberLeft':
+    #     print(f"MemberLeft:{json.load(event)}")
+    #     print("離開")
+    #     text_message = TextSendMessage(text = f"MemberLeft {event.source.type}")
+    #     line_bot_api.reply_message(reply_token, text_message)
+
 # Message event
 @handler.add(MessageEvent)
 def handle_message(event):
     message_type = event.message.type
     user_id = event.source.user_id
     reply_token = event.reply_token
-    message = event.message.text    
+    message = event.message.text  
     profile = line_bot_api.get_profile(user_id) #取得使用者資訊 
     #{
     #   "userId": "U82******************",
@@ -63,6 +103,7 @@ def handle_message(event):
     #   "language": "zh-Hant" // 使用者的偏好語言
     #}
     print(profile.display_name, "：",message) #傳送訊息Log
+    recordLastTimeMsg = ""
     ###判斷是否為黑名單內字元
     try:
         blackLists = f.searchJudge()
@@ -89,8 +130,14 @@ def handle_message(event):
         sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
     elif("會不會" in message):
-        text_message = TextSendMessage(text = random.choice(('會','不會')))
-        line_bot_api.reply_message(reply_token, text_message)
+        if recordLastTimeMsg == message :
+            text_message = TextSendMessage(text = "你剛才問過了")
+            line_bot_api.reply_message(reply_token, text_message)
+            recordLastTimeMsg = message
+        else:
+            text_message = TextSendMessage(text = random.choice(('會','不會')))
+            line_bot_api.reply_message(reply_token, text_message)
+            recordLastTimeMsg = message
     elif("清除黑名單" in message):
         if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
             try:    
@@ -232,5 +279,5 @@ def handle_message(event):
         line_bot_api.reply_message(reply_token, text_message)
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',80))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT',8080))
+    app.run(host='localhost', port=port)

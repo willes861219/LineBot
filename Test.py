@@ -3,17 +3,26 @@ import telnetlib
 from typing import List
 import function as f
 import re 
+import json
+
+f.updateUserData("Ubf86b62b8d21fc113481b795753ea9b9","劉仲恩")
+# member = [{"type": "user", "userId": "U8ff193174b01bfa73c2e4e9c178d003c"}]
+
+# print(member[0]["userId"])
+# test = next((x for x in member),None)
+# print(test['userId'])
+
 
 # print(f.searchJudge())
-msg = "哈囉"
-mylist = ['測試1','哈囉','測試2'] 
+# msg = "哈囉"
+# mylist = ['測試1','哈囉','測試2'] 
 
 # if msg in mylist:
 #     print("yes")
 # else:
 #     print("no")
-test = lambda x: x == msg
-print("test lambda and map = "+ mylist(msg))
+# test = lambda x: x == msg
+# print("test lambda and map = "+ mylist(msg))
 
 # blackLists = f.searchJudge()
 #     if(blackLists != []):
