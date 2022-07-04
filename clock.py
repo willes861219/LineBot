@@ -38,20 +38,19 @@ def resetDrawStraws():
     print('========== 重置抽籤次數  =========')
     f.resetDrawStraws() #重置抽籤次數
     
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour='15')
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour='12')
 def checkBirthday():
     print('========== 判斷有沒有人生日 =========')
-    print('這個工作在每天的下午三點執行')
+    print('這個工作在每天的中午12點執行')
     # 利用datetime查詢時間
     print(f'現在時間：{datetime.datetime.now().ctime()}')
     Lists = f.searchBirthday()
     if Lists != []:
         line_bot_api.multicast(Lists,TextSendMessage(text = '祝你生日快樂'))
-        print("今天有人生日")
         try:
             for List in Lists:
-                print(List)
                 profile = line_bot_api.get_profile(List)
+                print(f'''今天是{profile.display_name}生日''')
                 line_bot_api.push_message('Ce0a20c9eea131c7fce6deef569fff38e',TextSendMessage(text=f'''{profile.display_name},祝你生日快樂'''))
         except LineBotApiError as e: 
             print(f'''錯誤訊息：{e}''')
@@ -59,13 +58,6 @@ def checkBirthday():
         print("今天無人生日")
     print('========== 判斷有沒有人生日 =========')
 
-@sched.scheduled_job('cron', day_of_week='mon-sun', minute='*/2')
-def checkTest():
-    print('========== 測試呼叫 =========')
-    print('每兩分鐘執行一次')
-    # 利用datetime查詢時間
-    print(f'現在時間：{datetime.datetime.now().ctime()}')
-    print('========== 測試呼叫 =========')
 
 sched.start()
 

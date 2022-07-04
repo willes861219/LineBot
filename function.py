@@ -37,7 +37,7 @@ def SearchDB() : #顯示資料庫
             
     conn.close()
 
-    return str(data)
+    return data
 
 def SearchDrawStraws(UserGuid): #搜尋抽籤次數
         conn = DB_init()
@@ -213,5 +213,21 @@ def searchBirthday(): #取得今天生日人員GUID清單
 
     for list in lists:
         result.append(list[0])
+
+    return result
+
+def updateBirthday(date,id):
+    conn = DB_init()
+    cursor = conn.cursor()
+
+    query = f"update account set birthday= {date} where id = '{id}'"
+    
+    cursor.execute(query)
+    conn.commit()
+
+    result = cursor.rowcount
+
+    cursor.close()
+    conn.close()
 
     return result

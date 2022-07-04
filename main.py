@@ -274,7 +274,7 @@ def handle_message(event):
         text_message = TextSendMessage(text = '絕對不是我已讀的')
         line_bot_api.reply_message(reply_token, text_message)
     elif(message == '測試'):
-        msg = f.SearchDB()
+        msg = str(f.SearchDB())
         text_message = TextSendMessage(text = msg)
         line_bot_api.reply_message(reply_token, text_message)
 import os
