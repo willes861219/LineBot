@@ -183,7 +183,7 @@ def deleteJudge(msg): #刪除黑名單
             continue
     return "未找到相符字串"
 
-def clearJudge():
+def clearJudge(): #清除黑名單清單
     conn = DB_init()
     cursor = conn.cursor()
 
@@ -198,4 +198,20 @@ def clearJudge():
 
     return count
 
-    
+def searchBirthday(): #取得今天生日人員GUID清單
+    conn = DB_init()
+    cursor = conn.cursor()
+    query = '''select userguid from account where to_char(birthday,'MM-DD') = to_char(current_date,'MM-DD')'''
+
+    cursor.execute(query)
+    conn.commit()
+
+    lists = cursor.fetchall()
+    result = []
+    cursor.close()
+    conn.close()
+
+    for list in lists:
+        result.append(list[0])
+
+    return result
