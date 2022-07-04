@@ -13,6 +13,9 @@ from linebot.models import TextSendMessage
 # LINE BOT info
 line_bot_api = LineBotApi('Oab2kpZ3f0t35+8oYNfTpYbq9T4taRyVminiW9gHGUAbgnWfiWPpUoqmn2LpXEySzWu33oZgZQNY3xHDE67nH6+spvtyxzy7OZy+F3y8LqHYXHPZM7qJenb7ULux0oOcXLbn9Lg5D8oRzfm8ic8NBAdB04t89/1O/w1cDnyilFU=')
 myId = 'U8ff193174b01bfa73c2e4e9c178d003c'
+List = f.searchBirthday()
+for List in List:
+    print(List)
 
 # f.updateUserData("Ubf86b62b8d21fc113481b795753ea9b9","劉仲恩")
 # member = [{"type": "user", "userId": "U8ff193174b01bfa73c2e4e9c178d003c"}]

@@ -1,9 +1,11 @@
+from cgitb import text
 import datetime
 import urllib.request 
 import function as f
 from apscheduler.schedulers.blocking import BlockingScheduler
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
+from linebot.exceptions import LineBotApiError
 
 
 sched = BlockingScheduler()
@@ -42,10 +44,17 @@ def checkBirthday():
     print('這個工作在每天的下午三點執行')
     # 利用datetime查詢時間
     print(f'現在時間：{datetime.datetime.now().ctime()}')
-    List = f.searchBirthday()
-    if List != []:
-        line_bot_api.multicast(List,TextSendMessage(text = '祝你生日快樂'))
+    Lists = f.searchBirthday()
+    if Lists != []:
+        line_bot_api.multicast(Lists,TextSendMessage(text = '祝你生日快樂'))
         print("今天有人生日")
+        try:
+            for List in Lists:
+                print(List)
+                profile = line_bot_api.get_profile(List)
+                line_bot_api.push_message('Ce0a20c9eea131c7fce6deef569fff38e',TextSendMessage(text=f'''{profile.display_name},祝你生日快樂'''))
+        except LineBotApiError as e: 
+            print(f'''錯誤訊息：{e}''')
     else :
         print("今天無人生日")
     print('========== 判斷有沒有人生日 =========')
