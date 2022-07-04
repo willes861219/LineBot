@@ -37,7 +37,7 @@ def resetDrawStraws():
     f.resetDrawStraws() #重置抽籤次數
     
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour='15')
-def resetDrawStraws():
+def checkBirthday():
     print('========== 判斷有沒有人生日 =========')
     print('這個工作在每天的下午三點執行')
     # 利用datetime查詢時間
@@ -49,6 +49,14 @@ def resetDrawStraws():
     else :
         print("今天無人生日")
     print('========== 判斷有沒有人生日 =========')
+
+@sched.scheduled_job('cron', day_of_week='mon-sun', minute='*/2')
+def checkTest():
+    print('========== 測試呼叫 =========')
+    print('每兩分鐘執行一次')
+    # 利用datetime查詢時間
+    print(f'現在時間：{datetime.datetime.now().ctime()}')
+    print('========== 測試呼叫 =========')
 
 sched.start()
 
