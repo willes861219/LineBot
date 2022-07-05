@@ -19,7 +19,7 @@ def DB_init(): # 初始化DB配置
 def SearchDB() : #顯示資料庫
     conn = DB_init()
     cursor = conn.cursor() #初始化一個可以執行指令的cursor()。
-    query = '''select * from account'''
+    query = '''select id,userguid,username,drawstraws_count,cast(date AS VARCHAR),cast(birthday AS VARCHAR) from account order by id'''
     
     cursor.execute(query) #執行 SQL 指令。
 

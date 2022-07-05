@@ -125,9 +125,8 @@ def handle_message(event):
         print("失敗取得黑名單")
 
     if(message_type == "sticker"):
-        num = random.randint(76,99)
-        exportNum = '105513'+str(num)
-        sticker_message = StickerSendMessage(package_id='6136',sticker_id=exportNum)
+        exportNum = '110879'+str(random.randint(20,43))
+        sticker_message = StickerSendMessage(package_id='6382',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
     elif("會不會" in message):
         if recordLastTimeMsg == message :

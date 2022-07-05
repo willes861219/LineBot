@@ -9,8 +9,7 @@ import function as f
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 
-print(str(f.SearchDB()))
-
+# lists = f.updateBirthday()
 # LINE BOT info
 # line_bot_api = LineBotApi('Oab2kpZ3f0t35+8oYNfTpYbq9T4taRyVminiW9gHGUAbgnWfiWPpUoqmn2LpXEySzWu33oZgZQNY3xHDE67nH6+spvtyxzy7OZy+F3y8LqHYXHPZM7qJenb7ULux0oOcXLbn9Lg5D8oRzfm8ic8NBAdB04t89/1O/w1cDnyilFU=')
 # myId = 'U8ff193174b01bfa73c2e4e9c178d003c'
