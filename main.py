@@ -129,14 +129,8 @@ def handle_message(event):
         sticker_message = StickerSendMessage(package_id='6362',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
     elif("會不會" or "是不是" in message):
-        if recordLastTimeMsg == message :
-            text_message = TextSendMessage(text = "你剛才問過了")
-            line_bot_api.reply_message(reply_token, text_message)
-            recordLastTimeMsg = message
-        else:
             text_message = TextSendMessage(text = random.choice(('會','不會'))) if "會不會" in message else TextSendMessage(text = random.choice(('是','不是')))
             line_bot_api.reply_message(reply_token, text_message)
-            recordLastTimeMsg = message
     elif("清除黑名單" in message):
         if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
             try:    
