@@ -103,7 +103,6 @@ def handle_message(event):
     #   "language": "zh-Hant" // 使用者的偏好語言
     #}
     print(profile.display_name, "：",message) #傳送訊息Log
-    recordLastTimeMsg = ""
     ###判斷是否為黑名單內字元
     try:
         blackLists = f.searchJudge()
@@ -129,13 +128,13 @@ def handle_message(event):
         exportNum = '110879'+str(random.randint(20,43))
         sticker_message = StickerSendMessage(package_id='6362',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
-    elif("會不會" in message):
+    elif("會不會" or "是不是" in message):
         if recordLastTimeMsg == message :
             text_message = TextSendMessage(text = "你剛才問過了")
             line_bot_api.reply_message(reply_token, text_message)
             recordLastTimeMsg = message
         else:
-            text_message = TextSendMessage(text = random.choice(('會','不會')))
+            text_message = TextSendMessage(text = random.choice(('會','不會'))) if "會不會" in message else TextSendMessage(text = random.choice(('是','不是')))
             line_bot_api.reply_message(reply_token, text_message)
             recordLastTimeMsg = message
     elif("清除黑名單" in message):

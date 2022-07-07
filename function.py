@@ -24,7 +24,7 @@ def SearchDB() : #顯示資料庫
     cursor.execute(query) #執行 SQL 指令。
 
     conn.commit() #用conn.commit()做確認，指令才會真正被執行
-
+                   
     data= []
     while True:
         temp = cursor.fetchone()
