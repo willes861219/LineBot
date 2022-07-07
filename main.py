@@ -114,8 +114,10 @@ def handle_message(event):
 
             if any(message in list for list in blackLists): ## message模糊搜尋
                 isJudgeMsg = True
+                print("黑名單True")
             else:
                 isJudgeMsg = False
+                print("黑名單False")
                 
         print("成功判斷文字是否在黑名單內")
     except:
