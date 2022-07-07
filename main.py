@@ -112,7 +112,7 @@ def handle_message(event):
             # else:
             #     isJudgeMsg = False
 
-            if any(message in list for list in blackLists): ## message模糊搜尋
+            if any(list in message for list in blackLists): ## message模糊搜尋
                 isJudgeMsg = True
                 print("黑名單True")
             else:

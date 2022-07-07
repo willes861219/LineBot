@@ -8,7 +8,22 @@ import function as f
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
-
+message = "我不知道"
+blackLists = f.searchJudge()
+print(blackLists)
+if(blackLists != []):
+    # if message in blackLists: ## message 100%符合搜尋
+    #     isJudgeMsg =True
+    # else:
+    #     isJudgeMsg = False
+    for list in blackLists:
+        print(list)
+    if any(list in message for list in blackLists): ## message模糊搜尋
+        isJudgeMsg = True
+        print("黑名單True")
+    else:
+        isJudgeMsg = False
+        print("黑名單False")
 # lists = f.updateBirthday()
 # LINE BOT info
 # line_bot_api = LineBotApi('Oab2kpZ3f0t35+8oYNfTpYbq9T4taRyVminiW9gHGUAbgnWfiWPpUoqmn2LpXEySzWu33oZgZQNY3xHDE67nH6+spvtyxzy7OZy+F3y8LqHYXHPZM7qJenb7ULux0oOcXLbn9Lg5D8oRzfm8ic8NBAdB04t89/1O/w1cDnyilFU=')
