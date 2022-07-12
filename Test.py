@@ -1,3 +1,4 @@
+from datetime import datetime
 from distutils.log import error
 import telnetlib
 from typing import List
@@ -8,22 +9,60 @@ import function as f
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
-message = "我不知道"
-blackLists = f.searchJudge()
-print(blackLists)
-if(blackLists != []):
-    # if message in blackLists: ## message 100%符合搜尋
-    #     isJudgeMsg =True
-    # else:
-    #     isJudgeMsg = False
-    for list in blackLists:
-        print(list)
-    if any(list in message for list in blackLists): ## message模糊搜尋
-        isJudgeMsg = True
-        print("黑名單True")
-    else:
-        isJudgeMsg = False
-        print("黑名單False")
+
+results = f.searchClock()
+
+# print(datetime.today().strftime("%Y-%m-%d"))
+
+# today = datetime.today().strftime("%Y-%m-%d"
+#datetime.today().strftime("%Y-%m-%d"
+
+for result in results:    
+   if datetime.today().strftime("%Y-%m-%d") == result['clockdate']:
+      print(result)
+   else:
+      print("非今日鬧鐘")
+
+      
+#FB看到的問題
+# lists = [[1,2,3],[4,5],[6,7,8],[9]]
+# #第一種
+# for list in lists:
+#     lens = len(list)
+#     i = 0
+#     while i < lens:
+#         print(list[i])
+#         i +=1
+
+# #第二種
+# print("=========")
+# for list in lists:
+#     for lis in list:
+#         print(lis)
+
+
+
+
+
+# message = "我不知道"
+# blackLists = f.searchJudge()
+# print(blackLists)
+# if(blackLists != []):
+#     # if message in blackLists: ## message 100%符合搜尋
+#     #     isJudgeMsg =True
+#     # else:
+#     #     isJudgeMsg = False
+#     for list in blackLists:
+#         print(list)
+#     if any(list in message for list in blackLists): ## message模糊搜尋
+#         isJudgeMsg = True
+#         print("黑名單True")
+#     else:
+#         isJudgeMsg = False
+#         print("黑名單False")
+
+
+
 # lists = f.updateBirthday()
 # LINE BOT info
 # line_bot_api = LineBotApi('Oab2kpZ3f0t35+8oYNfTpYbq9T4taRyVminiW9gHGUAbgnWfiWPpUoqmn2LpXEySzWu33oZgZQNY3xHDE67nH6+spvtyxzy7OZy+F3y8LqHYXHPZM7qJenb7ULux0oOcXLbn9Lg5D8oRzfm8ic8NBAdB04t89/1O/w1cDnyilFU=')

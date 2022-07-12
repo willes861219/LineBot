@@ -231,3 +231,62 @@ def updateBirthday(date,id):
     conn.close()
 
     return result
+
+def setClock(date,time,id):
+    conn = DB_init()
+    cursor = conn.cursor()
+
+    query = f"update account set clockdate= {date},clocktime = {time} where id = '{id}'"
+    
+    cursor.execute(query)
+    conn.commit()
+
+    result = cursor.rowcount
+
+    cursor.close()
+    conn.close()
+
+    return result
+
+def searchClock():
+    conn  = DB_init()
+    cursor = conn.cursor()
+
+    query = f"select username,cast(clockdate as varchar),cast(clocktime as varchar) from account where clockdate is not null and clocktime is not null and clockdate = current_date order by clockdate,clocktime"
+    cursor.execute(query)
+
+    conn.commit()
+
+    desc = cursor.description
+    column_names = [col[0] for col in desc]
+    data = [dict(zip(column_names, row))  
+            for row in cursor.fetchall()]
+    # Lists = []
+    # while True:
+    #     temp = cursor.fetchone()
+    #     if temp:
+    #         Lists.append(temp)
+    #     else:
+    #         break
+
+    cursor.close()
+    conn.close()
+
+    return data
+
+
+def current_Time():
+    conn = DB_init()
+    cursor = conn.cursor()
+    
+    query = "select current_time(2)"
+
+    cursor.execute(query)
+    conn.commit()
+
+    temp = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return str(temp)

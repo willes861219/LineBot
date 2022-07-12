@@ -1,5 +1,5 @@
 from cgitb import text
-import datetime
+from datetime import datetime
 import urllib.request 
 import function as f
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -20,7 +20,7 @@ def scheduled_job():
     print('========== APScheduler CRON 定時呼叫器 =========')
     print('這個工作將在每過20分鐘執行一次呼叫')
     # 利用datetime查詢時間
-    print(f'{datetime.datetime.now().ctime()}')
+    print(f'{datetime.now().ctime()}')
     print('========== APScheduler CRON 定時呼叫器 =========')
 
     url = "https://yukibot-test.herokuapp.com/"
@@ -34,7 +34,7 @@ def resetDrawStraws():
     print('========== 重置抽籤次數 =========')
     print('這個工作在每天的晚上12點執行')
     # 利用datetime查詢時間
-    print(f'{datetime.datetime.now().ctime()}')
+    print(f'{datetime.now().ctime()}')
     print('========== 重置抽籤次數  =========')
     f.resetDrawStraws() #重置抽籤次數
     
@@ -43,7 +43,7 @@ def checkBirthday():
     print('========== 判斷有沒有人生日 =========')
     print('這個工作在每天的中午12點執行')
     # 利用datetime查詢時間
-    print(f'現在時間：{datetime.datetime.now().ctime()}')
+    print(f'現在時間：{datetime.now().ctime()}')
     Lists = f.searchBirthday()
     if Lists != []:
         line_bot_api.multicast(Lists,TextSendMessage(text = '祝你生日快樂'))
@@ -57,6 +57,33 @@ def checkBirthday():
     else :
         print("今天無人生日")
     print('========== 判斷有沒有人生日 =========')
+
+
+# @sched.scheduled_job('cron', day_of_week='mon-sun', hour='',minute='*/1',)
+# def checkBirthday():
+#     print('========== 設定鬧鐘 =========')
+#     # 利用datetime查詢時間
+#     print(f'現在時間：{datetime.now().ctime()}')
+
+#     listDic = f.searchClock()
+
+#     for dic in listDic:    
+#         if datetime.today().strftime("%Y-%m-%d") == dic['clockdate']:
+#         else:
+#           print("非今日鬧鐘")
+
+#     Lists = f.searchBirthday()
+#     if Lists != []:
+#         line_bot_api.multicast(Lists,TextSendMessage(text = ''))    
+#         try:
+#             for List in Lists:
+#                 profile = line_bot_api.get_profile(List)
+#                 line_bot_api.push_message('Ce0a20c9eea131c7fce6deef569fff38e',TextSendMessage(text=f'''{profile.display_name},祝你生日快樂'''))
+#         except LineBotApiError as e: 
+#             print(f'''錯誤訊息：{e}''')
+#     else :
+     
+#     print('========== 設定鬧鐘 =========')
 
 
 sched.start()

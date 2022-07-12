@@ -130,6 +130,10 @@ def handle_message(event):
         exportNum = '110879'+str(random.randint(20,43))
         sticker_message = StickerSendMessage(package_id='6362',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
+    elif("time" in message):
+        nowtime = f.current_Time
+        text_message = TextSendMessage(text = nowtime)
+        line_bot_api.reply_message(reply_token, text_message)
     elif("會不會" in message or "是不是" in message):
             text_message = TextSendMessage(text = random.choice(('會','不會'))) if "會不會" in message else TextSendMessage(text = random.choice(('是','不是')))
             line_bot_api.reply_message(reply_token, text_message)
