@@ -135,9 +135,12 @@ def handle_message(event):
         text_message = TextSendMessage(text = nowtime)
         line_bot_api.reply_message(reply_token, text_message)
     elif("會不會" in message or "是不是" in message or "要不要" in message or '對不對' in message):
-            replytext =  random.choice(('會','不會')) if "會不會" in message else random.choice(('是','不是'))  if "是不是" in message else random.choice(('要','不要')) if '要不要' in message else random.choice(('對','不對'))
-            text_message = TextSendMessage(text = replytext)
-            line_bot_api.reply_message(reply_token, text_message)
+        replytext =  random.choice(('會','不會')) if "會不會" in message else random.choice(('是','不是'))  if "是不是" in message else random.choice(('要','不要')) if '要不要' in message else random.choice(('對','不對'))
+        text_message = TextSendMessage(text = replytext)
+        line_bot_api.reply_message(reply_token, text_message)
+    elif('真假' in message):
+        text_message = TextSendMessage(text = random.choice(('真的','假的')))
+        line_bot_api.reply_message(reply_token,text_message)
     elif("清除黑名單" in message):
         if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
             try:    
