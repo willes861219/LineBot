@@ -131,7 +131,7 @@ def handle_message(event):
         sticker_message = StickerSendMessage(package_id='6362',sticker_id=exportNum)
         line_bot_api.reply_message(reply_token, sticker_message)
     elif("time" in message):
-        nowtime = f.current_Time
+        nowtime = f.current_Time()
         text_message = TextSendMessage(text = nowtime)
         line_bot_api.reply_message(reply_token, text_message)
     elif("會不會" in message or "是不是" in message):
