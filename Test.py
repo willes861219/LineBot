@@ -6,22 +6,27 @@ import function as f
 import re 
 import json
 import function as f
+import random
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 
-results = f.searchClock()
+# results = f.searchClock()
 
 # print(datetime.today().strftime("%Y-%m-%d"))
 
 # today = datetime.today().strftime("%Y-%m-%d"
 #datetime.today().strftime("%Y-%m-%d"
+message = '對不對'
 
-for result in results:    
-   if datetime.today().strftime("%Y-%m-%d") == result['clockdate']:
-      print(result)
-   else:
-      print("非今日鬧鐘")
+textMessage = random.choice(('會','不會')) if "會不會" in message else random.choice(('是','不是'))  if "是不是" in message else random.choice(('要','不要')) if '要不要' in message else random.choice(('對','不對'))
+
+print(textMessage)
+# for result in results:    
+#    if datetime.today().strftime("%Y-%m-%d") == result['clockdate']:
+#       print(result)
+#    else:
+#       print("非今日鬧鐘")
 
       
 #FB看到的問題

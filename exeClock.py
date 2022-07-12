@@ -24,8 +24,6 @@ def job1_task():
 def job2_task():
     threading.Thread(target=job2,args=("python3 clock.py",)).start()  #args傳元組格式
 
-
-
 schedule.every(10).seconds.do(job1_task)
 schedule.every(30).seconds.do(job2_task)
 
