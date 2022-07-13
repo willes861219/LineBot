@@ -235,7 +235,8 @@ def handle_message(event):
             text_message = TextSendMessage(text = '確實')
             line_bot_api.reply_message(reply_token, text_message)
         else:
-            text_message = TextSendMessage(text = profile.display_name + ',你講話可不可以不要這麼臭')
+            replyMessage = random.choice((',你講話怎麼這麼難聽',',你講話可不可以不要這麼臭'))
+            text_message = TextSendMessage(text = profile.display_name + replyMessage)
             line_bot_api.reply_message(reply_token, text_message)
     elif('謝' in message):
         text_message = TextSendMessage(text = '不客氣')
