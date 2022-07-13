@@ -138,6 +138,10 @@ def handle_message(event):
         replytext =  random.choice(('會','不會')) if "會不會" in message else random.choice(('是','不是'))  if "是不是" in message else random.choice(('要','不要')) if '要不要' in message else random.choice(('對','不對'))
         text_message = TextSendMessage(text = replytext)
         line_bot_api.reply_message(reply_token, text_message)
+    elif("不是問你" in message or "不是跟你說" in message or "不是跟你講" in message):
+        replytext =  random.choice(('喔','我也不是回你')) 
+        text_message = TextSendMessage(text = replytext)
+        line_bot_api.reply_message(reply_token, text_message)
     elif('真假' in message):
         text_message = TextSendMessage(text = random.choice(('真的','假的')))
         line_bot_api.reply_message(reply_token,text_message)
