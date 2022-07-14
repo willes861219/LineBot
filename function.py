@@ -7,12 +7,12 @@ import datetime
 
 def DB_init(): # 初始化DB配置
     ##本機Database 連線方式
-    # DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a yukibot-test').read()[:-1]
-    # conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
+    DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a yukibot-test').read()[:-1]
+    conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
 
     ##部屬到Heroku上 Database連線方式
-    DATABASE_URL = os.environ['DATABASE_URL']
-    conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
+    # DATABASE_URL = os.environ['DATABASE_URL']
+    # conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
 
     return conn
 
@@ -236,7 +236,7 @@ def setClock(date,time,id):
     conn = DB_init()
     cursor = conn.cursor()
 
-    query = f"update account set clockdate= {date},clocktime = {time} where id = '{id}'"
+    query = f"update account set clockdate= {date},clocktime = {time} where userguid = '{id}'"
     
     cursor.execute(query)
     conn.commit()
@@ -252,7 +252,7 @@ def searchClock():
     conn  = DB_init()
     cursor = conn.cursor()
 
-    query = f"select username,cast(clockdate as varchar),cast(clocktime as varchar) from account where clockdate is not null and clocktime is not null and clockdate = current_date order by clockdate,clocktime"
+    query = f"select username,cast(clockdate as varchar),cast(clocktime as varchar) from account where clockdate is not null and clocktime is not null and clockdate = current_date and clocktime < current_time order by clockdate,clocktime"
     cursor.execute(query)
 
     conn.commit()

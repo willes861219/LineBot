@@ -285,6 +285,10 @@ def handle_message(event):
         msg = str(f.SearchDB())
         text_message = TextSendMessage(text = msg)
         line_bot_api.reply_message(reply_token, text_message)
+    elif message == '時間':
+        result = f.searchClock() 
+        text_message = TextSendMessage(text = str(result))
+        line_bot_api.reply_message(reply_token, text_message)
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT',80))

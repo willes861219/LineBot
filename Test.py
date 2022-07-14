@@ -17,11 +17,25 @@ from linebot.models import TextSendMessage
 
 # today = datetime.today().strftime("%Y-%m-%d"
 #datetime.today().strftime("%Y-%m-%d"
-message = '對不對'
 
-textMessage = random.choice(('會','不會')) if "會不會" in message else random.choice(('是','不是'))  if "是不是" in message else random.choice(('要','不要')) if '要不要' in message else random.choice(('對','不對'))
+listDict=f.searchClock()
+if listDict != []:
+    for dic in listDict:    
+        if datetime.today().strftime("%Y-%m-%d") == dic['clockdate']:
+            print("今日鬧鐘")
+            
+        else:
+          print("非今日鬧鐘")
+else:
+    print("空的")
 
-print(textMessage)
+# message = '對不對'
+
+# textMessage = random.choice(('會','不會')) if "會不會" in message else random.choice(('是','不是'))  if "是不是" in message else random.choice(('要','不要')) if '要不要' in message else random.choice(('對','不對'))
+
+# print(textMessage)
+
+
 # for result in results:    
 #    if datetime.today().strftime("%Y-%m-%d") == result['clockdate']:
 #       print(result)

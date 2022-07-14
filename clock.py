@@ -64,8 +64,10 @@ def checkBirthday():
 #     print('========== 設定鬧鐘 =========')
 #     # 利用datetime查詢時間
 #     print(f'現在時間：{datetime.now().ctime()}')
-
 #     listDic = f.searchClock()
+#     if listDic != []:
+        
+
 
 #     for dic in listDic:    
 #         if datetime.today().strftime("%Y-%m-%d") == dic['clockdate']:
