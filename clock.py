@@ -23,7 +23,7 @@ def scheduled_job():
     print(f'{datetime.now().ctime()}')
     print('========== APScheduler CRON 定時呼叫器 =========')
 
-    url = "https://yukibot-test.herokuapp.com/"
+    url = "https://yukibot-new.herokuapp.com/"
     conn = urllib.request.urlopen(url)
 
     for key, value in conn.getheaders():
