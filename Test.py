@@ -18,16 +18,11 @@ from linebot.models import TextSendMessage
 # today = datetime.today().strftime("%Y-%m-%d"
 #datetime.today().strftime("%Y-%m-%d"
 
-listDict=f.searchClock()
-if listDict != []:
-    for dic in listDict:    
-        if datetime.today().strftime("%Y-%m-%d") == dic['clockdate']:
-            print("今日鬧鐘")
-            
-        else:
-          print("非今日鬧鐘")
-else:
-    print("空的")
+
+# print(f.updateJudge('假的'))
+print(f.updateBirthday('2022-01-01','Ubf86b62b8d21fc113481b795753ea9b9'))
+# print(f.clearJudge())
+
 
 # message = '對不對'
 

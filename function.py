@@ -6,11 +6,12 @@ import psycopg2
 import datetime
 
 def DB_init(): # 初始化DB配置
-    ##本機Database 連線方式
-    # DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a yukibot-test').read()[:-1]
+    # 本機Database 連線方式  
+    # 換一個 New App 後，記得改成要連線的DATABASE 
+    # DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a yukibot-new').read()[:-1]
     # conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
 
-    ##部屬到Heroku上 Database連線方式
+    # ## 部屬到Heroku上 Database連線方式
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = psycopg2.connect(DATABASE_URL,sslmode='require') #利用前面得到的DATABASE_URL連接上 Heroku 給我們的資料庫。
 
@@ -42,9 +43,9 @@ def SearchDB() : #顯示資料庫
 def SearchDrawStraws(UserGuid): #搜尋抽籤次數
         conn = DB_init()
         cursor = conn.cursor() #初始化一個可以執行指令的cursor()。
-        query = f'''select DrawStraws_Count from account where UserGuid = '{UserGuid}' '''
+        query = '''select DrawStraws_Count from account where UserGuid = %s'''
         
-        cursor.execute(query) #執行 SQL 指令。
+        cursor.execute(query,[UserGuid]) #執行 SQL 指令。
         conn.commit() #用conn.commit()做確認，指令才會真正被執行
 
         temp = cursor.fetchone()
@@ -78,9 +79,9 @@ def updateCount(UserGuid,DayCount): #新增抽籤次數
     if(DayCount < 3):
         conn = DB_init()
         cursor = conn.cursor() #初始化一個可以執行指令的cursor()。
-        query = f'''update account set DrawStraws_Count = DrawStraws_Count+1 where UserGuid = '{UserGuid}' '''
+        query = '''update account set DrawStraws_Count = DrawStraws_Count+1 where UserGuid = %s '''
         
-        cursor.execute(query) #執行 SQL 指令。
+        cursor.execute(query,[UserGuid]) #執行 SQL 指令。
         conn.commit() #用conn.commit()做確認，指令才會真正被執行
 
         cursor.close() #最後兩行程式碼來關閉cursor
@@ -95,11 +96,11 @@ def resetDrawStraws(UserGuid = ""): #重置抽籤次數
     conn = DB_init()
     cursor = conn.cursor() #初始化一個可以執行指令的cursor()。
     if(UserGuid != ''):
-        query = f'''update account set DrawStraws_Count = 0 where UserGuid = '{UserGuid}' ''' 
+        query = '''update account set DrawStraws_Count = 0 where UserGuid = %s ''' 
     else:
         query = '''update account set DrawStraws_Count = 0 '''
     
-    cursor.execute(query) #要執行 SQL 指令。
+    cursor.execute(query,[UserGuid]) #要執行 SQL 指令。
     conn.commit() #用conn.commit()做確認，指令才會真正被執行
 
     cursor.close() #最後兩行程式碼來關閉cursor
@@ -140,15 +141,15 @@ def searchJudge(): #搜尋黑名單
 def updateJudge(msg): #更新黑名單
     conn = DB_init()
     cursor = conn.cursor()
-    query = f'''update judge 
+    query = '''update judge 
                 set message = 
                 case 
-                when message is null then 
-                '{msg}' 
-                else CONCAT(message,',{msg}')
+                when message is null or message = '' then 
+                %s 
+                else CONCAT(message,%s)
                 end'''
-
-    cursor.execute(query)
+    addMsg = f',{msg}'
+    cursor.execute(query,(msg,addMsg))
     count = cursor.rowcount
     conn.commit()
     
@@ -169,9 +170,9 @@ def deleteJudge(msg): #刪除黑名單
             conn = DB_init()
             cursor = conn.cursor()
 
-            query = f'''update judge set message = '{message[:-1]}' '''
+            query = '''update judge set message = %s '''
             
-            cursor.execute(query)
+            cursor.execute(query,[message[:-1]])
 
             conn.commit()
 
@@ -216,13 +217,13 @@ def searchBirthday(): #取得今天生日人員GUID清單
 
     return result
 
-def updateBirthday(date,id):
+def updateBirthday(date,userGuid):
     conn = DB_init()
     cursor = conn.cursor()
 
-    query = f"update account set birthday= {date} where id = '{id}'"
+    query = '''update account set birthday= %s where userguid = %s '''
     
-    cursor.execute(query)
+    cursor.execute(query,(date,userGuid))
     conn.commit()
 
     result = cursor.rowcount
@@ -232,13 +233,13 @@ def updateBirthday(date,id):
 
     return result
 
-def setClock(date,time,id):
+def setClock(date,time,userGuid):
     conn = DB_init()
     cursor = conn.cursor()
 
-    query = f"update account set clockdate= {date},clocktime = {time} where userguid = '{id}'"
+    query = '''update account set clockdate= %s,clocktime = %s where userguid = %s '''
     
-    cursor.execute(query)
+    cursor.execute(query,(date,time,userGuid))
     conn.commit()
 
     result = cursor.rowcount
