@@ -30,7 +30,7 @@ handler = WebhookHandler('aff823673f1d48c14b2875b853ebb17f')
 
 # 增加的這段放在下面
 @app.route("/")
-def home():
+def home(): 
     return render_template("home.html")
 # 增加的這段放在上面
 
@@ -295,5 +295,5 @@ def handle_message(event):
 
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',80))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT',8080))
+    app.run(host='localhost', port=port)
