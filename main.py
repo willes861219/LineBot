@@ -41,6 +41,7 @@ def callback():
 
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
+
     print(body)
 
     try:
@@ -295,5 +296,5 @@ def handle_message(event):
 
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',8080))
-    app.run(host='localhost', port=port)
+    port = int(os.environ.get('PORT',80))
+    app.run(host='0.0.0.0', port=port)
