@@ -13,7 +13,7 @@ from linebot.models import TextSendMessage
 
 # results = f.searchClock()
 
-# print(datetime.today().strftime("%Y-%m-%d"))
+# print(datetime.today().strftime("%Y-%m-%d")   
 
 # today = datetime.today().strftime("%Y-%m-%d"
 #datetime.today().strftime("%Y-%m-%d"
