@@ -296,5 +296,5 @@ def handle_message(event):
 
 import os
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT',80))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT',8080))
+    app.run(host='0.0.0.0', port=port,debug=True)
