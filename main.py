@@ -1,14 +1,3 @@
-from __future__ import barry_as_FLUFL
-from array import array
-from ast import ListComp
-from hashlib import blake2b
-from itertools import count
-from operator import index
-from this import d
-from timeit import timeit
-from unittest import TextTestResult
-from uuid import RESERVED_FUTURE
-
 import function as f
 import os
 import json
