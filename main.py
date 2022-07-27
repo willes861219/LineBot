@@ -1,5 +1,16 @@
 from __future__ import barry_as_FLUFL
+from array import array
+from ast import ListComp
+from hashlib import blake2b
+from itertools import count
+from operator import index
+from this import d
+from timeit import timeit
+from unittest import TextTestResult
+from uuid import RESERVED_FUTURE
+
 import function as f
+import os
 import json
 import random
 from flask import Flask, request, abort,render_template
@@ -285,6 +296,5 @@ def handle_message(event):
 
 import os
 if __name__ == "__main__":
-    app.run()
-    port = int(os.environ.get('PORT',8080))
+    port = int(os.environ.get('PORT',80))
     app.run(host='0.0.0.0', port=port,debug=True)
