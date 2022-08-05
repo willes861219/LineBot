@@ -231,6 +231,14 @@ def handle_message(event):
             replyMessage = random.choice((',你講話怎麼這麼難聽',',你講話可不可以不要這麼臭'))
             text_message = TextSendMessage(text = profile.display_name + replyMessage)
             line_bot_api.reply_message(reply_token, text_message)
+    elif('道歉' in message):
+        if(user_id == "U8ff193174b01bfa73c2e4e9c178d003c"):
+            text_message = TextSendMessage(text = profile.display_name  + '對不起')
+            line_bot_api.reply_message(reply_token, text_message)
+        else:
+            replyMessage = random.choice(('道你媽','你才該道歉'))
+            text_message = TextSendMessage(text = profile.display_name + replyMessage)
+            line_bot_api.reply_message(reply_token, text_message)
     elif('謝' in message):
         text_message = TextSendMessage(text = '不客氣')
         line_bot_api.reply_message(reply_token, text_message)
