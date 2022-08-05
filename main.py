@@ -127,8 +127,8 @@ def handle_message(event):
         nowtime = f.current_Time()
         text_message = TextSendMessage(text = nowtime)
         line_bot_api.reply_message(reply_token, text_message)
-    elif("會不會" in message or "是不是" in message or "要不要" in message or '對不對' in message):
-        replytext =  random.choice(('會','不會')) if "會不會" in message else random.choice(('是','不是'))  if "是不是" in message else random.choice(('要','不要')) if '要不要' in message else random.choice(('對','不對'))
+    elif("會不會" in message or "是不是" in message or "要不要" in message or '對不對' in message or '有沒有' in message):
+        replytext =  random.choice(('會','不會'))  if "會不會" in message else random.choice(('是','不是'))  if "是不是" in message else random.choice(('要','不要')) if '要不要' in message else random.choice(('對','不對')) if '對不對' in message else random.choice(('有','沒有'))
         text_message = TextSendMessage(text = replytext)
         line_bot_api.reply_message(reply_token, text_message)
     elif("不是問你" in message or "不是跟你說" in message or "不是跟你講" in message):

@@ -10,7 +10,8 @@ ___
 ### 注意事項
 - 推送至Heroku指令 git push heroku HEAD:master
 - 推送至Heroku需變更Database連線方式、Host、Port變更
-- git commit 反悔 輸入 git reset --soft HEAD~1 回到上一步
+- 收回 git commit 方法
+  - git reset --soft HEAD~1 回到上一步
 
 ### 推送至heroku 新 app方式
 - heroku login
