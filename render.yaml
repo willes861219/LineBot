@@ -4,7 +4,7 @@ services:
     env: python
     repo: https://github.com/willes861219/LineBot
     buildCommand: install --upgrade pip;pip install gunicorn -r requirements.txt
-    startCommand: gunicorn app:main
+    startCommand: gunicorn main:app
     plan: free
     autoDeploy: false
     envVars:
