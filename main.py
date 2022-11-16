@@ -14,9 +14,8 @@ from linebot.models import *
 
 app = Flask(__name__)
 # LINE BOT info
-line_bot_api = LineBotApi(
-    'Oab2kpZ3f0t35+8oYNfTpYbq9T4taRyVminiW9gHGUAbgnWfiWPpUoqmn2LpXEySzWu33oZgZQNY3xHDE67nH6+spvtyxzy7OZy+F3y8LqHYXHPZM7qJenb7ULux0oOcXLbn9Lg5D8oRzfm8ic8NBAdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('aff823673f1d48c14b2875b853ebb17f')
+line_bot_api = LineBotApi('<填入你 Linebot 的 channel access token>')
+handler = WebhookHandler('<填入你 Linebot 的 Channel secret>')
 
 # 增加的這段放在下面
 
@@ -101,10 +100,10 @@ def handle_message(event):
     profile = line_bot_api.get_profile(user_id)  # 取得使用者資訊
     # {
     #   "userId": "U82******************",
-    #   "displayName": "張君祥", // 傳訊息使用者的帳號名字
-    #   "pictureUrl": "https://sprofile.line-scdn.net/***/", // 使用者的大頭照圖片網址
-    #   "statusMessage": "蘋果仁 IG 編輯\n做個無所畏懼s的謙卑之人",  // 使用者的 Bio
-    #   "language": "zh-Hant" // 使用者的偏好語言
+    #   "displayName": "陳威延", // 傳訊息的用戶名稱
+    #   "pictureUrl": "https://sprofile.line-scdn.net/***/", // 使用者大頭照網址
+    #   "statusMessage": "",  // 狀態資訊
+    #   "language": "zh-Hant" // 偏好語言
     # }
     print(profile.display_name, "：", message)  # 傳送訊息Log
     # 判斷是否為黑名單內字元
