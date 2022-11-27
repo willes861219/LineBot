@@ -1,4 +1,8 @@
-#Linebot
+# Linebot
+
+### 轉移
+
+- Heroku 免費方案已過期， 已將 Linebot 專案、資料庫轉移至 Render 部署
 
 ---
 
